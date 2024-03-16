@@ -1,1 +1,9 @@
-<p>navbar works!</p>
+<nav>
+  <ul>
+    <li><a routerLink="/" *ngIf="user">Home</a></li>
+    <li><a routerLink="/login" *ngIf="!user">Login</a></li>
+    <li><a routerLink="/register" *ngIf="!user">Register</a></li>
+    <li><a routerLink="/myprofile" *ngIf="user">UserPage</a></li>
+    <li><a routerLink="/client" *ngIf="user">Client Registration</a></li>
+  </ul>
+</nav>

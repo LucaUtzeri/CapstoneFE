@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserServiceService } from '../services/user-service.service';
+import { lsAuth } from '../interfaces/User';
 
 @Component({
   selector: 'app-navbar',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
-  constructor() { }
+  user!: lsAuth | null;
+  constructor(private userServ: UserServiceService) { }
 
   ngOnInit(): void {
+    this.userServ.user$.subscribe((_user) => {
+      this.user = _user;
+    });
   }
 
 }
