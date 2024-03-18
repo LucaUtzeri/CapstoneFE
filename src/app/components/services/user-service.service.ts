@@ -10,7 +10,7 @@ import {
   switchMap,
   Observable,
 } from 'rxjs';
-import { AuthData, lsAuth } from '../interfaces/User';
+import { AuthData, lsAuth } from '../interfaces/user';
 @Injectable({
   providedIn: 'root',
 })
