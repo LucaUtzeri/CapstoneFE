@@ -4,26 +4,25 @@ export interface SingleCard {
     type: string
     frameType: string
     desc: string
-    pend_desc: string
-    monster_desc: string
-    atk: number
-    def: number
-    level: number
+    pend_desc?: string
+    monster_desc?: string
+    atk?: number
+    def?: number
+    level?: number
     race: string
-    attribute: string
-    archetype: string
-    scale: number
+    attribute?: string
+    archetype?: string
+    scale?: number
     ygoprodeck_url: string
     card_sets: CardSets[]
     card_images: CardImages[]
     card_prices: CardPrices[]
-    image: string
 }
 
 export interface AllCards {
-    id: number
-    name: string
-    image: string
+    id: number;
+    name: string;
+    images: CardImages[];
 }
 
 export interface CardSets {
