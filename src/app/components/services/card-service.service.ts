@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SingleCard } from '../interfaces/card';
 import { AllCards } from '../interfaces/card';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { ErrorsService } from './errors.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,35 @@ import { Observable } from 'rxjs';
 export class CardServiceService {
 
   pageNumb = 1;
-  apiUrl = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
+  api = environment.apiUrl
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private errorService: ErrorsService) { }
 
-  getCards(): Observable<AllCards[]> {
-    return this.http.get<AllCards[]> (this.apiUrl);
+  getCards(page: number, pageSize: number): Observable<AllCards[]> {
+    const params = new HttpParams()
+      .set(`page`, page.toString())
+      .set(`pageSize`, pageSize.toString())
+    return this.http.get<AllCards[]>(this.api, { params });
   }
+
+
+
+  
+  private saveImages(imageUrl: string): void {
+    this.http.get(imageUrl, { responseType: `blob` })
+      .subscribe(blob => {
+        const urlParts = imageUrl.split("/");
+        const imageName = urlParts[urlParts.length - 1];
+        const file = new File([blob], imageName, { type: `image/jpeg` });
+      });
+  }
+
+  saveCardImages(cards: AllCards[]): void{
+    cards.forEach(card => {
+      card.images.forEach(imgUrl =>
+        this.saveImages.bind(imgUrl));
+      //cicli array immagini, salva immagini
+    });
+  }
+
 }
