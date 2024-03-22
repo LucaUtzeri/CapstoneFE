@@ -20,6 +20,11 @@ export interface SingleCard {
 }
 
 export interface AllCards {
+    count: number;
+    data: CardNoDetail[];
+}
+
+export interface CardNoDetail {
     id: number;
     name: string;
     images: CardImages[];

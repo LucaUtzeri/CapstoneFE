@@ -1,21 +1,13 @@
-
-<div class="container">
-    <h1>Card List</h1>
-  
-    <!-- Pagination Section -->
-    <div class="pagination">
-      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
-      <span>Page {{ currentPage }}</span>
-      <button (click)="nextPage()">Next</button>
-    </div>
-  
-    <!-- Card List Section -->
-    <div class="card-list">
-      <!-- Loop over cards and display card information -->
-      <div class="card" *ngFor="let card of cards">
-        <img [src]="card.images" alt="Card Image">
-        <h2>{{ card.name }}</h2>
-        <!-- Add more card details as needed -->
-      </div>
-    </div>
+<h1>CARD LIST</h1>
+<!-- Pagination Section -->
+<div class="pagination">
+  <button *ngFor="let page of displayPageNo" (click)="fetchCards(page)">
+    {{ page + 1 }}
+  </button>
+</div>
+<main *ngIf="cards?.data">
+  <div *ngFor="let card of cards.data">
+    <h1>{{ card.name }}</h1>
+    <img [src]="{card}" alt="">
   </div>
+</main>

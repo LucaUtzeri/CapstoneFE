@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { SingleCard } from '../interfaces/card';
 import { AllCards } from '../interfaces/card';
-import { Observable, catchError } from 'rxjs';
+import { Observable, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ErrorsService } from './errors.service';
 
@@ -16,13 +16,26 @@ export class CardServiceService {
 
   constructor(private http: HttpClient, private errorService: ErrorsService) { }
 
-  getCards(page: number, pageSize: number): Observable<AllCards[]> {
-    const params = new HttpParams()
-      .set(`page`, page.toString())
-      .set(`pageSize`, pageSize.toString())
-    return this.http.get<AllCards[]>(this.api, { params });
-  }
+  // getCards(page: number, pageSize: number): Observable<AllCards[]> {
+  //   const params = new HttpParams()
+  //     .set(`page`, page.toString())
+  //     .set(`pageSize`, pageSize.toString())
+  //   return this.http.get<AllCards[]>(this.api, { params });
+  // }
 
+  getCards(page: number = 0) {
+    return this.http
+    .get<AllCards>(
+      `https://db.ygoprodeck.com/api/v7/cardinfo.php`
+    )
+    // .pipe(
+    //   tap((cardResult) => {
+    //     this.pageNumb = Math.ceil(
+    //       cardResult.count 
+    //     );
+    //   })
+    // );
+  }
 
 
   
@@ -35,12 +48,12 @@ export class CardServiceService {
       });
   }
 
-  saveCardImages(cards: AllCards[]): void{
-    cards.forEach(card => {
-      card.images.forEach(imgUrl =>
-        this.saveImages.bind(imgUrl));
-      //cicli array immagini, salva immagini
-    });
-  }
+  // saveCardImages(cards: AllCards[]): void{
+  //   cards.forEach(card => {
+  //     card.images.forEach(imgUrl =>
+  //       this.saveImages.bind(imgUrl));
+  //     //cicli array immagini, salva immagini
+  //   });
+  // }
 
 }
