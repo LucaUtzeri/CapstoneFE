@@ -28,13 +28,13 @@ export class CardServiceService {
     .get<AllCards>(
       `https://db.ygoprodeck.com/api/v7/cardinfo.php`
     )
-    // .pipe(
-    //   tap((cardResult) => {
-    //     this.pageNumb = Math.ceil(
-    //       cardResult.count 
-    //     );
-    //   })
-    // );
+    .pipe(
+      tap((cardResult) => {
+        this.pageNumb = Math.ceil(
+          cardResult.count 
+        );
+      })
+    );
   }
 
 

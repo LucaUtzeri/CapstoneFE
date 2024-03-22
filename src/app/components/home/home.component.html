@@ -8,6 +8,7 @@
 <main *ngIf="cards?.data">
   <div *ngFor="let card of cards.data">
     <h1>{{ card.name }}</h1>
-    <img [src]="{card}" alt="">
+    <p>{{card.id}}</p>
+  <img src="{{card.image_url_small}}" alt="">
   </div>
 </main>
