@@ -27,7 +27,8 @@ export interface AllCards {
 export interface CardNoDetail {
     id: number;
     name: string;
-    images: CardImages[];
+    type:string;
+    image_url_small: string
 }
 
 export interface CardSets {

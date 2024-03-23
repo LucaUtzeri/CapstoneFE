@@ -1,13 +1,13 @@
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+// .container {
+//     max-width: 800px;
+//     margin: 0 auto;
+//     padding: 20px;
+//   }
   
-  .pagination {
-    margin-bottom: 20px;
-    text-align: center;
-  }
+  // .pagination {
+  //   margin-bottom: 20px;
+  //   text-align: center;
+  // }
   
   .pagination button {
     padding: 8px 16px;
@@ -17,31 +17,54 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 0 5px;
+    margin: 0 10px;
   }
   
   .pagination button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
   }
-  
-  .card-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    .card-container{
+      display: flex;
+      flex-wrap: wrap;
+      margin: auto;
+    }
+
+  .poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
   }
   
+main {
+  position: relative;
+}
+
+.card p{
+  justify-content: left;
+}
+
   .card {
-    width: 200px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    display: flex;
+    width: 25%;
+    margin: 1em;
+    padding: 25px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
     text-align: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
   }
   
-  .card img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
+  .card h1 {
+    font-size: 1.3rem;
+  }
+
+  .card button {
+    background-color: white;
+    border-radius: 5px;
+    padding: 0.5rem;
+
   }

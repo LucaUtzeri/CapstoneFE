@@ -1,9 +1,20 @@
-<nav class="navbar-dark navbar-expand-lg">
-  <ul>
-    <li><a routerLink="/" *ngIf="user">Home</a></li>
-    <li><a routerLink="/login" *ngIf="!user">Login</a></li>
-    <li><a routerLink="/register" *ngIf="!user">Register</a></li>
-    <li><a routerLink="/myprofile" *ngIf="user">UserPage</a></li>
-    <li><a routerLink="/client" *ngIf="user">Client Registration</a></li>
+<nav id="navbar">
+  <ul class="poppins-regular">
+    <li class="nav-item" *ngIf="user">
+      <a class="nav-link" routerLink="/">Home</a>
+    </li>
+    <li class="" *ngIf="!user">
+      <a class="nav-link" routerLink="/login">Login</a>
+    </li>
+    <li class="" *ngIf="!user">
+      <a class="nav-link" routerLink="/register">Register</a>
+    </li>
+    <li class="" *ngIf="user">
+      <a class="nav-link" routerLink="/myprofile">User Page</a>
+    </li>
   </ul>
+
+  <form class="" *ngIf="user">
+    <input type="text" placeholder="Card name" />
+  </form>
 </nav>
