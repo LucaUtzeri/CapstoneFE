@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SingleCard } from '../interfaces/card';
+import { CardImages, SingleCard } from '../interfaces/card';
 import { AllCards } from '../interfaces/card';
 import { Observable, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -25,28 +25,37 @@ export class CardServiceService {
 
   getCards(page: number = 0) {
     return this.http
-    .get<AllCards>(
-      `https://db.ygoprodeck.com/api/v7/cardinfo.php`
+      .get<AllCards>(
+        `https://db.ygoprodeck.com/api/v7/cardinfo.php`
+      )
+      .pipe(
+        tap((cardResult) => {
+          this.pageNumb = Math.ceil(
+            cardResult.count / cardResult.data.length
+          );
+        })
+      );
+  }
+
+  getImages(): Observable<CardImages[]> {
+    return this.http.get<CardImages[]>(`https://db.ygoprodeck.com/api/v7/cardinfo.php`).pipe(
+      tap(data => this.saveLocally(data))
     )
-    .pipe(
-      tap((cardResult) => {
-        this.pageNumb = Math.ceil(
-          cardResult.count 
-        );
-      })
-    );
+  }
+
+  saveLocally(data: CardImages[]): void {
+    localStorage.setItem(`image_url_small`, JSON.stringify(data))
   }
 
 
-  
-  private saveImages(imageUrl: string): void {
-    this.http.get(imageUrl, { responseType: `blob` })
-      .subscribe(blob => {
-        const urlParts = imageUrl.split("/");
-        const imageName = urlParts[urlParts.length - 1];
-        const file = new File([blob], imageName, { type: `image/jpeg` });
-      });
-  }
+  // private saveImages(imageUrl: string): void {
+  //   this.http.get(imageUrl, { responseType: `blob` })
+  //     .subscribe(blob => {
+  //       const urlParts = imageUrl.split("/");
+  //       const imageName = urlParts[urlParts.length - 1];
+  //       const file = new File([blob], imageName, { type: `image/jpeg` });
+  //     });
+  // }
 
   // saveCardImages(cards: AllCards[]): void{
   //   cards.forEach(card => {
@@ -54,6 +63,8 @@ export class CardServiceService {
   //       this.saveImages.bind(imgUrl));
   //     //cicli array immagini, salva immagini
   //   });
-  // }
-
 }
+
+
+
+

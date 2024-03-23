@@ -27,7 +27,10 @@ export interface AllCards {
 export interface CardNoDetail {
     id: number;
     name: string;
-    type:string;
+    type: string;
+    desc: string;
+    pend_desc?: string
+    monster_desc?: string
     image_url_small: string
 }
 

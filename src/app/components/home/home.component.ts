@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   //   });
   // }
 
-  fetchCards(page: number){
+  fetchCards(page: number) {
     this.cardSrv.getCards(page).subscribe((cards) => {
       console.log(cards)
       this.cards = cards;
@@ -46,6 +46,11 @@ export class HomeComponent implements OnInit {
         if (i < 5) {
           this.displayPageNo.push(i);
         }
+      }
+    })
+    this.cardSrv.getImages().subscribe((img) => {
+      for (let i = 0; i < this.cardSrv.pageNumb; i++) {
+        localStorage.getItem(`image_url_small`)
       }
     })
   }
