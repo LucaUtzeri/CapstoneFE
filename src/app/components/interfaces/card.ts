@@ -14,13 +14,15 @@ export interface SingleCard {
     archetype?: string
     scale?: number
     ygoprodeck_url: string
-    card_sets: CardSets[]
-    card_images: CardImages[]
-    card_prices: CardPrices[]
+    card_sets: CardSets
+    card_images: CardImages
+    card_prices: CardPrices
 }
 
 export interface AllCards {
     count: number;
+    next: string;
+    previous: null;
     data: CardNoDetail[];
 }
 
@@ -31,7 +33,7 @@ export interface CardNoDetail {
     desc: string;
     pend_desc?: string
     monster_desc?: string
-    image_url_small: string
+    card_images: CardImages
 }
 
 export interface CardSets {

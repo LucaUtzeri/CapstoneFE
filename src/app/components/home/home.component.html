@@ -1,20 +1,30 @@
 <h1 class="poppins-regular header">Yu-Gi-Oh! - Card Database</h1>
 <!-- Pagination Section -->
 <div class="pagination">
-  <button *ngFor="let page of displayPageNo" (click)="fetchCards(page)">
+  <button *ngFor="let page of displayPageNo" (click)="fetchByPage(page)">
     {{ page + 1 }}
   </button>
 </div>
 <main *ngIf="cards?.data" class="poppins-regular">
+  <!-- <app-card-detail *ngFor="let card of cards.data" [cardName]="card.name">
+  </app-card-detail> -->
   <div class="card-container">
-    <div class="card card-body" *ngFor="let card of cards.data">
-      <h1 class="card-name">{{ card.name }}</h1>
-      <p class="card-type">{{ card.type }}</p>
-      <p class="card-description" *ngIf="!card.pend_desc">{{ card.desc }}</p>
-      <p class="pend-desc" *ngIf="card.pend_desc">{{ card.pend_desc }}</p>
-      <p class="pend-mon" *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
-      <!-- <img class="" src="{{ card.image_url_small }}" alt="" /> -->
-      <button class="card-button poppins-regular glow-on-hover">
+    <div class="card card-body shadow" *ngFor="let card of cards.data">
+      <div class="card-image-container">
+        <img
+          class="card-image"
+          [src]="card.card_images.image_url_small"
+          alt="{{ card.name }}"
+        />
+      </div>
+      <div class="card-info">
+        <h1 class="card-name">{{ card.name }}</h1>
+        <p class="card-type">{{ card.type }}</p>
+        <p class="card-description" *ngIf="!card.pend_desc">{{ card.desc }}</p>
+        <p class="pend-desc" *ngIf="card.pend_desc">{{ card.pend_desc }}</p>
+        <p class="pend-mon" *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
+      </div>
+      <button class="card-button poppins-regular glow-on-hover" []>
         Card Details
       </button>
     </div>
