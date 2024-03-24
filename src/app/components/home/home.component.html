@@ -1,20 +1,20 @@
 <h1 class="poppins-regular header">Yu-Gi-Oh! - Card Database</h1>
 <!-- Pagination Section -->
-<div class="pagination">
-  <button *ngFor="let page of displayPageNo" (click)="fetchByPage(page)">
-    {{ page + 1 }}
-  </button>
-</div>
 <main *ngIf="cards?.data" class="poppins-regular">
+  <div class="pagination">
+    <button *ngFor="let page of displayPageNo" (click)="fetchByPage(page)">
+      {{ page + 1 }}
+    </button>
+  </div>
   <!-- <app-card-detail *ngFor="let card of cards.data" [cardName]="card.name">
   </app-card-detail> -->
   <div class="card-container">
-    <div class="card card-body shadow" *ngFor="let card of cards.data">
+    <div class="card card-body" *ngFor="let card of cards.data">
       <div class="card-image-container">
         <img
-          class="card-image"
-          [src]="card.card_images.image_url_small"
-          alt="{{ card.name }}"
+        class="card-image"
+        [src]="card.card_images.image_url_small"
+        alt="{{ card.name }}"
         />
       </div>
       <div class="card-info">
@@ -24,9 +24,12 @@
         <p class="pend-desc" *ngIf="card.pend_desc">{{ card.pend_desc }}</p>
         <p class="pend-mon" *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
       </div>
-      <button class="card-button poppins-regular glow-on-hover" []>
-        Card Details
-      </button>
-    </div>
+      <a
+      class="card-button poppins-regular glow-on-hover"
+      [routerLink]="[card.name]"
+      >
+      Card Details
+    </a>
   </div>
+</div>
 </main>

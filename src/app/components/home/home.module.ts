@@ -9,13 +9,13 @@ const routes: Routes = [
         component: HomeComponent,
     },
     {
-        path: `:name`,
+        path: `card`,
         component: CardDetailComponent,
     },
 ];
 
 @NgModule({
-    declarations: [HomeComponent, CardDetailComponent],
+    declarations: [CardDetailComponent],
     imports: [CommonModule, RouterModule, RouterModule.forChild(routes)],
 })
-export class HomeModule {}
+export class HomeModule { }
