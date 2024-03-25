@@ -3,12 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-import { UserComponent } from './components/user/user.component';
-
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    // component: HomeComponent,
+    loadChildren: () =>
+      import("./components/home/home.module").then(
+        (module) => module.HomeModule
+      )
   },
   {
     path: 'login',
@@ -17,11 +19,7 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
-  },
-  {
-    path: 'user',
-    component: UserComponent,
-  },
+  }
 ];
 
 @NgModule({

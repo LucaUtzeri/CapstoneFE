@@ -26,7 +26,7 @@ export class CardServiceService {
   getCards(page: number = 0) {
     return this.http
       .get<AllCards>(
-        `https://db.ygoprodeck.com/api/v7/cardinfo.php` + `?offset=${page * 0}&num=20`
+        `https://db.ygoprodeck.com/api/v7/cardinfo.php` + `?offset=${page * 20}&num=20`
       )
       .pipe(
         tap((cardResult) => {
@@ -39,7 +39,7 @@ export class CardServiceService {
 
   getCardByName(name: string) {
     return this.http
-      .get<SingleCard>(`https://db.ygoprodeck.com/api/v7/cardinfo.php/` + name)
+      .get<SingleCard>(`https://db.ygoprodeck.com/api/v7/cardinfo.php?name=` + name)
   }
 
 

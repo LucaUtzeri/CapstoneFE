@@ -1,1 +1,24 @@
-<p>card-detail works!</p>
+<div class="card-container">
+    <div class="card card-body" *ngIf="card?.id">
+      <div class="card-image-container">
+        <img
+        class="card-image"
+        [src]="card.card_images.image_url_small"
+        alt="{{ card.name }}"
+        />
+      </div>
+      <div class="card-info">
+        <h1 class="card-name">{{ card.name }}</h1>
+        <p class="card-type">{{ card.type }}</p>
+        <p class="card-description" *ngIf="!card.pend_desc">{{ card.desc }}</p>
+        <p class="pend-desc" *ngIf="card.pend_desc">{{ card.pend_desc }}</p>
+        <p class="pend-mon" *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
+      </div>
+      <a
+      class="card-button poppins-regular glow-on-hover"
+      [routerLink]="[card.name]"
+      >
+      Card Details
+    </a>
+  </div>
+</div>

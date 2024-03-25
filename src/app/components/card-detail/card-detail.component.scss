@@ -1,0 +1,78 @@
+.card-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    margin-inline: 10rem;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+  }
+
+.poppins-regular {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.card p{
+    justify-content: left;
+  }
+  
+    .card {
+      background-color: rgb(157, 157, 157);
+      color: rgb(25, 25, 25);
+      display: flex;
+      width: 20%;
+      margin: 1em;
+      padding: 25px;
+      border-radius: 10px;
+      text-align: left;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-items: center;
+      box-shadow: 15px 15px 10px 0px rgba(123, 123, 123, 0.8274509804);
+      justify-content: center;
+      align-content: center;
+    }
+    
+    .card-name{
+      font-size: 2.1rem;
+      margin: 0;
+    }
+  
+    .card-type{
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0;
+    }
+  
+    .card-description, .pend-desc, .pend-mon{
+      font-size: 0.8rem;
+      text-align: left;
+      font-weight: bolder;
+      margin-top: 30px;
+    }
+  
+    .card-info{
+      margin-bottom: 10px;
+    }
+  
+    .card-button {
+      display: flex;
+      padding: 0.6rem;
+      width: 30%;
+      font-size: 1.5rem;
+      text-decoration: none;  
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .card-image-container{
+      width: 200px;
+      height: 300px;
+      background-color: #000;
+    }
+  
+    .card-image-container{
+      width: auto;
+    }
