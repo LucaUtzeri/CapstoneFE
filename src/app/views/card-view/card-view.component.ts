@@ -14,7 +14,7 @@ export class CardViewComponent {
 
   ngOnInit() {
     this.cardSrv.getCardByName(this.cardName).subscribe((resp) => {
-      if (typeof resp !== 'string') { this.card = resp; }
+      this.card = resp;
     })
   }
 }
