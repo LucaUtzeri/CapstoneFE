@@ -14,7 +14,7 @@ export interface SingleCard {
     archetype?: string
     scale?: number
     ygoprodeck_url: string
-    card_sets: CardSets
+    card_sets: CardSets[]
     card_images: CardImages
     card_prices: CardPrices
 }

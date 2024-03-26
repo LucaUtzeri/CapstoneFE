@@ -40,7 +40,7 @@ export class CardServiceService {
   getCardByName(name: string) {
     return this.http
       .get<SingleCard>('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + name)
-      console.log
+
   }
 
 

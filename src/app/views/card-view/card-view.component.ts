@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardServiceService } from 'src/app/components/services/card-service.service';
 import { SingleCard } from 'src/app/components/interfaces/card';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-card-view',
@@ -8,13 +9,18 @@ import { SingleCard } from 'src/app/components/interfaces/card';
   styleUrls: ['./card-view.component.scss']
 })
 export class CardViewComponent {
-  @Input() cardName!: string;
+
   card!: SingleCard;
-  constructor(private cardSrv: CardServiceService) { }
+  constructor(private cardSrv: CardServiceService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.cardSrv.getCardByName(this.cardName).subscribe((resp) => {
-      this.card = resp;
+    this.route.paramMap.subscribe(params => {
+      console.log("----", params);
+      let cardName = params.get('name') || '';
+      this.cardSrv.getCardByName(cardName).subscribe((resp) => {
+        this.card = resp;
+        console.log("----", resp)
+      })
     })
   }
 }

@@ -1,5 +1,26 @@
-<div *ngIf="card?.id">
-  <img [src]="card.name" alt="{{ card.name }}" />
-    
-
+<div *ngIf="card" class="view-container">
+  <h1>{{ card.name }}</h1>
+  <img [src]="card.card_images.image_url" alt="{{ card.name }}" />
+  <h2>{{ card.frameType }}</h2>
+  <h3>{{ card.type }}</h3>
+  <p *ngIf="!card.pend_desc">{{ card.desc }}</p>
+  <p *ngIf="card.pend_desc">{{ card.pend_desc }}</p>
+  <p *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
+  <p *ngIf="card.atk"></p>
+  <p *ngIf="card.def"></p>
+  <p *ngIf="card.level"></p>
+  <p>{{ card.race }}</p>
+  <p *ngIf="card.attribute"></p>
+  <p *ngIf="card.archetype"></p>
+  <p *ngIf="card.scale"></p>
+  <a href="{{ card.ygoprodeck_url }}">{{ card.ygoprodeck_url }}</a>
+  <ul *ngFor="let set of card.card_sets"></ul>
+  <h1>Card Prices</h1>
+  <ul>
+    <li>{{ card.card_prices.cardmarket_price }}</li>
+    <li>{{ card.card_prices.tcgplayer_price }}</li>
+    <li>{{ card.card_prices.ebay_price }}</li>
+    <li>{{ card.card_prices.amazon_price }}</li>
+    <li>{{ card.card_prices.coolstuffinc_price }}</li>
+  </ul>
 </div>
