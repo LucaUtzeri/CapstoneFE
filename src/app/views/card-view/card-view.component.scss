@@ -86,4 +86,20 @@ span{
 .card-price{
     font-size: 1.2rem;
     margin-bottom: 5px;
+    margin-inline: 20px;
+}
+
+.card-prices-list{
+    display: flex;
+    justify-content: space-between;
+}
+
+a {
+    color: aqua;
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
 }
