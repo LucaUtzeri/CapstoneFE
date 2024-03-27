@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CardServiceService } from 'src/app/components/services/card-service.service';
-import { SingleCard } from 'src/app/components/interfaces/card';
+import { SingleCard, SingleCardResponse } from 'src/app/components/interfaces/card';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CardViewComponent {
 
-  card!: SingleCard;
+  card!: SingleCardResponse;
   constructor(private cardSrv: CardServiceService, private route: ActivatedRoute) { }
 
   ngOnInit() {

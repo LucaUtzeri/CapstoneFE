@@ -7,17 +7,17 @@ import { CardServiceService } from '../services/card-service.service';
   templateUrl: './card-detail.component.html',
   styleUrls: ['./card-detail.component.scss']
 })
-export class CardDetailComponent implements OnInit {
+export class CardDetailComponent {
   @Input() cardName!: string;
   card!: SingleCard;
   constructor(private cardSrv: CardServiceService) { }
 
-  ngOnInit(): void {
-    this.cardSrv.getCardByName(this.cardName).subscribe((data) => {
-      if (typeof data !== `string`) {
-        this.card = data
-      }
-    })
-  }
+  // ngOnInit(): void {
+  //   this.cardSrv.getCardByName(this.cardName).subscribe((data) => {
+  //     if (typeof data !== `string`) {
+  //       this.card = data
+  //     }
+  //   })
+  // }
 
 }

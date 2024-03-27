@@ -38,6 +38,8 @@ export class HomeComponent {
     this.currentPage = page;
     this.cardSrv.getCards(page).subscribe((cards) => {
       this.cards = cards;
+
+
       this.displayPageNo = this.pageNo.slice(
         this.currentPage - 1 < 0 ? 0 : this.currentPage - 1,
         this.currentPage + 4

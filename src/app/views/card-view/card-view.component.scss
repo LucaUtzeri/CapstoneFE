@@ -1,8 +1,89 @@
 .view-container{
-    color: white;
+    color: beige;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin-top: 50px;
+    margin-inline: 100px;
+}
+
+.card-name {
+    text-align: center;
+    font-size: 3.5rem;
+    text-shadow: 5px 5px 5px #a9572e56;
+    border-left: solid 5px #b9592a;
+    padding-left: 20px;
 }
 
 img{
-    width: 500px;
-    height: 700px;
+    width: 600px;
+    height: 850px;
+    margin: 40px;
+    margin-inline: 100px;
+    box-shadow: 20px 20px 10px 0px #736af056;
+    border-radius: 10px;
+}
+.card-info-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.card-type {
+ font-size: 2rem;
+ margin-bottom: 0.5rem;
+}
+
+.card-attributes{
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.card-text{
+    font-size: 1.2rem;
+    margin-inline-end: 700px;
+}
+
+.card-archetype{
+    font-size: 1.5rem;
+}
+
+.card-set-container{
+    display: flex;
+    align-items: start;
+    justify-content: space-evenly;
+}
+
+.card-set{
+    color: rgb(40, 40, 40);
+    font-weight: bold;
+    font-size: large;
+    margin-inline: 20px;
+    background-color: rgb(128, 128, 128);
+    border: solid 5px #4c4b4b;
+    border-radius: 10px;
+    padding-inline: 10px;
+    box-shadow: 10px 10px 10px 0px #736af056;
+}
+.card-set h4{
+    margin-top: 10px;
+    color: #2e2c2f;
+}
+
+span{
+    color: #b9592a;
+}
+
+.card-prices-title{
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.card-price{
+    font-size: 1.2rem;
+    margin-bottom: 5px;
 }

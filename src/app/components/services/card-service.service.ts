@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CardImages, SingleCard } from '../interfaces/card';
+import { CardImages, SingleCard, SingleCardResponse } from '../interfaces/card';
 import { AllCards } from '../interfaces/card';
 import { Observable, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -26,7 +26,9 @@ export class CardServiceService {
   getCards(page: number = 0) {
     return this.http
       .get<AllCards>(
-        `https://db.ygoprodeck.com/api/v7/cardinfo.php` + `?offset=${page * 20}&num=20`
+        `https://db.ygoprodeck.com/api/v7/cardinfo.php`
+
+        // + `?offset=${page * 20}&num=20`
       )
       .pipe(
         tap((cardResult) => {
@@ -39,7 +41,7 @@ export class CardServiceService {
 
   getCardByName(name: string) {
     return this.http
-      .get<SingleCard>('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + name)
+      .get<SingleCardResponse>('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + name)
 
   }
 
