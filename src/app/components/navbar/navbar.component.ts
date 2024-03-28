@@ -27,8 +27,4 @@ export class NavbarComponent {
     });
   }
 
-  search(ev: Event) {
-    ev.preventDefault();
-    this.router.navigate(['/detail', this.query])
-  }
 }

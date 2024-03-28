@@ -2,9 +2,16 @@
 <!-- Pagination Section -->
 <main *ngIf="cards?.data" class="poppins-regular">
   <div class="pagination-container">
-    <form (submit)="getCardbyQuery()" class="glow-on-hover">
+    <form
+      class="glow-on-hover"
+      #query="ngForm"
+      (submit)="getCardbyQuery(query)"
+    >
       <!-- no "!" -->
       <input
+        name="query"
+        id="query"
+        ngModel
         class="search-bar poppins-regular"
         type="text"
         placeholder="Search for a card name"

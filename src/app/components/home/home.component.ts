@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CardServiceService } from '../services/card-service.service';
 import { AllCards } from '../interfaces/card';
+import { Router } from '@angular/router';
+import { NgForm } from '@angular/forms';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +11,7 @@ import { AllCards } from '../interfaces/card';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  query!: string;
+  query: string = '';
   cards!: AllCards;
   pageNo: number[] = [];
   displayPageNo: number[] = [];
@@ -17,7 +20,8 @@ export class HomeComponent {
 
 
 
-  constructor(private cardSrv: CardServiceService) {
+
+  constructor(private cardSrv: CardServiceService, private router: Router) {
     cardSrv.getCards().subscribe((data) => {
       this.cards = data;
       for (let i = 0; i < this.cardSrv.pageNumb; i++) {
@@ -71,11 +75,20 @@ export class HomeComponent {
     this.loadCards();
   }
 
-  getCardbyQuery() {
+  getCardbyQuery(query: NgForm) {
+    this.query = query.value.query
+    console.log('--->', this.query);
+
     this.cardSrv.getFuzzyCardName(this.query).subscribe((resp) => {
       this.cards = resp;
       console.log('+++++', resp)
     })
+    // this.router.navigate(['/details', this.search])
+  }
+
+  search(ev: Event) {
+    ev.preventDefault();
+    this.router.navigate(['/details', this.query])
   }
 }
 

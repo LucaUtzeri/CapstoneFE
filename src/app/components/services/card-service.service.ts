@@ -47,18 +47,18 @@ export class CardServiceService {
 
   }
 
-  getFuzzyCardName(query: string) {
+  getFuzzyCardName(query: string, page: number = 0) {
     return this.http
       .get<AllCards>(
-        'https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=' + query)
-      .pipe(
-        tap((cardResult) => {
-          this.pageNumb = Math.ceil(
-            cardResult.meta.total_rows / cardResult.data.length
-          );
-          console.log('-___-', cardResult);
-        })
-      );
+        `https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=${query}`)
+    // .pipe(
+    //   tap((searchResult) => {
+    //     this.pageNumb = Math.ceil(
+    //       searchResult.meta.total_rows / searchResult.data.length
+    //     );
+    //     console.log('-___-', searchResult);
+    //   })
+    // );
   }
 
 
