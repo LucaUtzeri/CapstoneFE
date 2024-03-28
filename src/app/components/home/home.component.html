@@ -1,22 +1,36 @@
 <h1 class="poppins-regular header">Yu-Gi-Oh! - Card Database</h1>
 <!-- Pagination Section -->
 <main *ngIf="cards?.data" class="poppins-regular">
-  <div class="pagination">
-    <button *ngFor="let page of displayPageNo" (click)="fetchByPage(page)">
-      {{ page + 1 }}
-    </button>
+  <div class="pagination-container">
+    <form (submit)="getCardbyQuery()" class="glow-on-hover">
+      <!-- no "!" -->
+      <input
+        class="search-bar poppins-regular"
+        type="text"
+        placeholder="Search for a card name"
+      />
+      <button style="display: none"></button>
+    </form>
+    <div class="button-container">
+      <button
+        class="pagination poppins-regular glow-on-hover"
+        *ngFor="let page of displayPageNo"
+        (click)="fetchByPage(page)"
+      >
+        {{ page }}
+      </button>
+    </div>
   </div>
-  <!-- <app-card-detail *ngFor="let card of cards.data" [cardName]="card.name">
-  </app-card-detail> -->
+
   <div class="card-container">
     <div class="card card-body" *ngFor="let card of cards.data">
-      <!-- <div class="card-image-container">
+      <div class="card-image-container">
         <img
-        class="card-image"
-        [src]="card.card_images.image_url_small"
-        alt="{{ card.name }}"
+          class="card-image"
+          [src]="card.card_images[0].image_url_small"
+          alt="{{ card.name }}"
         />
-      </div> -->
+      </div>
       <div class="card-info">
         <h1 class="card-name">{{ card.name }}</h1>
         <p class="card-type">{{ card.type }}</p>
@@ -25,11 +39,11 @@
         <p class="pend-mon" *ngIf="card.pend_desc">{{ card.monster_desc }}</p>
       </div>
       <a
-      class="card-button poppins-regular glow-on-hover"
-      [routerLink]="['/details',card.name]"
+        class="card-button poppins-regular glow-on-hover"
+        [routerLink]="['/details', card.name]"
       >
-      Card Details
-    </a>
+        Card Details
+      </a>
+    </div>
   </div>
-</div>
 </main>

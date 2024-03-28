@@ -8,7 +8,7 @@ import { AllCards } from '../interfaces/card';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
+  query!: string;
   cards!: AllCards;
   pageNo: number[] = [];
   displayPageNo: number[] = [];
@@ -26,12 +26,8 @@ export class HomeComponent {
           this.displayPageNo.push(i);
         }
       }
+
     })
-    // this.cardSrv.getImages().subscribe((img) => {
-    //   for (let i = 0; i < this.cardSrv.pageNumb; i++) {
-    //     localStorage.getItem(`image_url_small`)
-    //   }
-    // })
   }
 
   fetchByPage(page: number) {
@@ -42,7 +38,7 @@ export class HomeComponent {
 
       this.displayPageNo = this.pageNo.slice(
         this.currentPage - 1 < 0 ? 0 : this.currentPage - 1,
-        this.currentPage + 4
+        this.currentPage + 5
       );
     });
   }
@@ -75,10 +71,11 @@ export class HomeComponent {
     this.loadCards();
   }
 
-  // testSaveImage() {
-  //   this.cardSrv.saveCardImages(this.cards);
-  // }
-
-
-
+  getCardbyQuery() {
+    this.cardSrv.getFuzzyCardName(this.query).subscribe((resp) => {
+      this.cards = resp;
+      console.log('+++++', resp)
+    })
+  }
 }
+

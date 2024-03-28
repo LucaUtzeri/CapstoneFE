@@ -24,6 +24,7 @@ export interface SingleCardResponse {
     data: SingleCard[];
 }
 export interface AllCards {
+    meta: MetaData
     count: number;
     next: string;
     previous: null;
@@ -38,6 +39,10 @@ export interface CardNoDetail {
     pend_desc?: string
     monster_desc?: string
     card_images: CardImages[];
+}
+
+export interface MetaData {
+    total_rows: number
 }
 
 export interface CardSets {

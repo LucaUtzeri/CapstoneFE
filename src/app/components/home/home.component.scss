@@ -3,41 +3,51 @@
 //     margin: 0 auto;
 //     padding: 20px;
 //   }
-  
-  // .pagination {
-  //   margin-bottom: 20px;
-  //   text-align: center;
-  // }
+.pagination-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}  
+form {
+  margin-bottom: 30px;
+}
+
+input{
+  background-color: #000;
+  padding: 10px;
+  border-radius: 10px;
+  border: solid black;
+  color: beige;
+  width: 500px;
+}
+
+  .pagination {
+    text-align: center;
+    font-size: 1.5rem;
+    width: 50px;
+    height: 50px;
+    /* font-weight: bolder; */
+    background:transparent;
+    color: beige;
+    border: solid 2px;
+    margin-inline: 10px;
+    border-radius: 100px;
+  }
 
   .header{
-    font-size: 3rem;
-    font-weight: bold;
+    font-size: 4rem;
+    font-weight: bolder;
     text-align: center;
   }
 
-  
-  .pagination button {
-    padding: 8px 16px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 10px;
-  }
-  
-  .pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
     .card-container{
       display: flex;
       flex-wrap: wrap;
       margin-top: 2rem;
       margin-inline: 10rem;
       justify-content: center;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       align-content: center;
     }
@@ -46,6 +56,11 @@
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
+  }
+
+  .card-image{
+    box-shadow: 15px 15px 10px 0px rgba(123, 123, 123, 0.8274509804);
+    width: 250px;
   }
   
 main {
@@ -61,16 +76,17 @@ main {
     color: rgb(25, 25, 25);
     display: flex;
     width: 20%;
+    height: 900px;
     margin: 1em;
     padding: 25px;
     border-radius: 10px;
     text-align: left;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
+    box-shadow: 15px 15px 10px 0px #736af056;
+    justify-content: space-around;
+    align-content: space-between;
     align-items: center;
-    box-shadow: 15px 15px 10px 0px rgba(123, 123, 123, 0.8274509804);
-    justify-content: center;
-    align-content: center;
   }
   
   .card-name{
@@ -103,12 +119,8 @@ main {
     text-decoration: none;  
     align-items: center;
     justify-content: center;
-  }
-
-  .card-image-container{
-    width: 200px;
-    height: 300px;
-    background-color: #000;
+    width: 220px;
+    height: 50px;
   }
 
   .card-image-container{
@@ -116,8 +128,8 @@ main {
   }
 
   .glow-on-hover {
-    width: 220px;
-    height: 50px;
+    // width: 220px;
+    // height: 50px;
     border: none;
     outline: none;
     color: #fff;

@@ -28,13 +28,15 @@ export class CardServiceService {
       .get<AllCards>(
         `https://db.ygoprodeck.com/api/v7/cardinfo.php`
 
-        // + `?offset=${page * 20}&num=20`
+        + `?offset=${page * 16}&num=16`
       )
       .pipe(
         tap((cardResult) => {
           this.pageNumb = Math.ceil(
-            cardResult.count / cardResult.data.length
+            cardResult.meta.total_rows / cardResult.data.length
           );
+          console.log('------', cardResult);
+
         })
       );
   }
@@ -44,6 +46,22 @@ export class CardServiceService {
       .get<SingleCardResponse>('https://db.ygoprodeck.com/api/v7/cardinfo.php?name=' + name)
 
   }
+
+  getFuzzyCardName(query: string) {
+    return this.http
+      .get<AllCards>(
+        'https://db.ygoprodeck.com/api/v7/cardinfo.php?fname=' + query)
+      .pipe(
+        tap((cardResult) => {
+          this.pageNumb = Math.ceil(
+            cardResult.meta.total_rows / cardResult.data.length
+          );
+          console.log('-___-', cardResult);
+        })
+      );
+  }
+
+
 
 
   getImages(): Observable<CardImages[]> {
