@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
   
   form {
@@ -33,3 +34,17 @@
     margin-top: 0.5rem;
   }
   
+  .pattern {
+    position: absolute;
+    z-index: -1;
+    overflow: hidden;
+  }
+  
+  .line {
+    position: absolute;
+    width: 100%;
+    overflow: hidden;
+    height: 5px; /* Adjust line height as needed */
+    left: 0px; /* Move the line to start from the left */
+    background: linear-gradient(to right, #ffd700, #9400d3); /* Gold to dark purple gradient */
+  }

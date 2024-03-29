@@ -5,27 +5,18 @@ body {
 .pattern {
   position: absolute;
   z-index: -1;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .line {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   height: 5px; /* Adjust line height as needed */
-  left: 100px; /* Move the line to start from the left */
+  left: 0px; /* Move the line to start from the left */
   background: linear-gradient(to right, #ffd700, #9400d3); /* Gold to dark purple gradient */
-  animation: shiftLine 1s linear infinite; /* Adjust animation duration as needed */
 }
 
-@keyframes shiftLine {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
 
 .main {
   display: flex;
@@ -38,9 +29,16 @@ body {
   position: relative;
 }
 
+a{
+  margin-top: 10px;
+  font-size: 1.1rem;
+  color: aqua;
+}
+
 h1 {
   font-size: 5rem;
   z-index: 4;
+  text-shadow: 5px 5px 10px rgb(154, 105, 14);
 }
 
 form {
@@ -79,3 +77,4 @@ button {
   transform: translate(-620px, 105px);
   width: 970px;
 }
+

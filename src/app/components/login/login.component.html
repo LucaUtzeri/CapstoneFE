@@ -1,14 +1,22 @@
 <div class="main">
   <div class="container pattern line"></div>
-  <h1>Welcome Back</h1>
+  <h1 class="cinzel-bold">Welcome Back</h1>
   <img
     class="diabellstar"
     src="../../../assets/diabellstar_the_black_witch___yugioh_master_duel_by_matteste_dguht0d-pre.png"
     alt=""
   />
   <form #form="ngForm" (ngSubmit)="login(form)">
-    <input type="email" name="email" placeholder="email" required ngModel />
     <input
+      class="email-input glow-on-hover"
+      type="email"
+      name="email"
+      placeholder="email"
+      required
+      ngModel
+    />
+    <input
+      class="password-input"
       type="password"
       name="password"
       placeholder="password"
@@ -17,4 +25,5 @@
     />
     <button type="submit" [disabled]="form.invalid">Login</button>
   </form>
+  <a routerLink="/register">Dont have an account? Create a new one!</a>
 </div>
