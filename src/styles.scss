@@ -13,3 +13,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     background-color: #EB4D0F;
 }
 
+.bg-patter{
+    background: linear-gradient( 
+    45deg,
+    rgba(2,0,36,1) 0%,
+    rgba(58,18,107,1) 19%,
+    rgba(25,22,126,1) 42%,
+    rgba(5,34,140,1) 65%, 
+    rgba(11,159,189,1) 91%);
+}
+
+.bg-color{
+    background: rgb (2,0,36);
+}

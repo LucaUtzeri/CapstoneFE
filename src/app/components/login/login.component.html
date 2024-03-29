@@ -1,13 +1,20 @@
-<!-- <div class="main">
-    <form #form="ngForm" (ngSubmit)="login(form)">
-      <input type="email" name="email" placeholder="email" required ngModel />
-      <input
-        type="password"
-        name="password"
-        placeholder="password"
-        required
-        ngModel
-      />
-      <button type="submit" [disabled]="form.invalid">Login</button>
-    </form>
-  </div> -->
+<div class="main">
+  <div class="container pattern line"></div>
+  <h1>Welcome Back</h1>
+  <img
+    class="diabellstar"
+    src="../../../assets/diabellstar_the_black_witch___yugioh_master_duel_by_matteste_dguht0d-pre.png"
+    alt=""
+  />
+  <form #form="ngForm" (ngSubmit)="login(form)">
+    <input type="email" name="email" placeholder="email" required ngModel />
+    <input
+      type="password"
+      name="password"
+      placeholder="password"
+      required
+      ngModel
+    />
+    <button type="submit" [disabled]="form.invalid">Login</button>
+  </form>
+</div>

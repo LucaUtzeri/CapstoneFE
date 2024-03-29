@@ -1,35 +1,81 @@
+body {
+  background-color: #f5f5f5; /* Light grey */
+}
+
+.pattern {
+  position: absolute;
+  z-index: -1;
+  overflow: auto;
+}
+
+.line {
+  position: absolute;
+  width: 100vw;
+  overflow: hidden;
+  height: 5px; /* Adjust line height as needed */
+  left: 100px; /* Move the line to start from the left */
+  background: linear-gradient(to right, #ffd700, #9400d3); /* Gold to dark purple gradient */
+  animation: shiftLine 1s linear infinite; /* Adjust animation duration as needed */
+}
+
+@keyframes shiftLine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .main {
-    width: 100%;
-    height: calc(100vh - 4rem);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
-    border: solid 1px lightgray;
-    border-radius: 10px;
-  }
-  
-  input {
-    margin: 1rem;
-    padding: 1rem;
-    border-radius: 10px;
-    border: solid 1px lightgrey;
-  }
-  
-  button {
-    background-color: #a558c8;
-    color: white;
-    padding: 0.7rem;
-    padding-inline: 1rem;
-    border: none;
-    border-radius: 10px;
-    margin-inline: auto;
-    margin-top: 0.5rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - 4rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+h1 {
+  font-size: 5rem;
+  z-index: 4;
+}
+
+form {
+  background-color: #202020;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  border: solid 1px lightgray;
+  border-radius: 10px;
+  z-index: 4;
+}
+
+input {
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: solid 1px lightgrey;
+  z-index: 4;
+}
+
+button {
+  background-color: #a558c8;
+  color: white;
+  padding: 0.7rem;
+  padding-inline: 1rem;
+  border: none;
+  border-radius: 10px;
+  margin-inline: auto;
+  margin-top: 0.5rem;
+  z-index: 4;
+}
+
+.diabellstar {
+  position: absolute;
+  transform: translate(-620px, 105px);
+  width: 970px;
+}
