@@ -10,7 +10,7 @@
     <h3 class="card-type">{{ card.data[0].type }}</h3>
     <!-- <h2>Frame Type: {{ card.data[0].frameType }}</h2> -->
     <h3 class="card-attributes" *ngIf="card.data[0].attribute">
-      {{ card.data[0].attribute }} / {{ card.data[0].race }}
+      {{ card.data[0].attribute }} / <span>{{ card.data[0].race }}</span>
     </h3>
     <h3 class="card-attributes" *ngIf="!card.data[0].attribute">
       {{ card.data[0].race }} - Type
@@ -20,7 +20,7 @@
       <span>Level/Rank:</span> {{ card.data[0].level }}
     </h2>
     <h2 class="card-level" *ngIf="card.data[0].scale">
-      Pendulum Scale: {{ card.data[0].scale }}
+      <span>Pendulum Scale:</span> {{ card.data[0].scale }}
     </h2>
     <h2 *ngIf="card.data[0].atk">
       <span>Attack Value:</span> {{ card.data[0].atk }}
