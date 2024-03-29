@@ -56,6 +56,7 @@ img{
     display: flex;
     align-items: start;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .card-set{
@@ -67,7 +68,10 @@ img{
     border: solid 5px #4c4b4b;
     border-radius: 10px;
     padding-inline: 10px;
-    box-shadow: 10px 10px 10px 0px #736af056;
+    box-shadow: 10px 10px 10px 0px rgba(115, 106, 240, 0.337254902);
+    margin: 20px;
+    width: 500px;
+    height: 185px;
 }
 .card-set h4{
     margin-top: 10px;

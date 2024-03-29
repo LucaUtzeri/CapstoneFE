@@ -1,0 +1,511 @@
+AUTH CONTROLLER
+---------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.controllers;
+
+
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.payloads.UserDTO;
+import com.team1.epicenergyservices.payloads.login.UserLoginDTO;
+import com.team1.epicenergyservices.payloads.login.UserLoginResponseDTO;
+import com.team1.epicenergyservices.services.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+    @Autowired
+    private AuthService authSrv;
+
+    @PostMapping("/login")
+    public UserLoginResponseDTO login(@RequestBody UserLoginDTO userLog){
+        String accessToken = authSrv.authenticateUserAndGenerateToken(userLog);
+        return new UserLoginResponseDTO(accessToken);
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public User saveUser(@RequestBody UserDTO newUser) throws IOException {
+        return this.authSrv.save(newUser);
+    }
+}
+------------------------------------------------------------------------------------
+USER CONTROLLER
+---------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.controllers;
+
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.exceptions.BadRequestException;
+import com.team1.epicenergyservices.payloads.UserDTO;
+import com.team1.epicenergyservices.repositories.UserRepository;
+import com.team1.epicenergyservices.services.AuthService;
+import com.team1.epicenergyservices.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    @Autowired
+    private UserService userSrv;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private AuthService authSrv;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public User saveUser(@RequestBody @Validated UserDTO user, BindingResult validation) throws Exception{
+        if(validation.hasErrors()){
+            throw new BadRequestException(validation.getAllErrors());
+        }
+        return authSrv.save(user);
+    }
+
+    @GetMapping
+    public List<User> getUsers(){
+        return userRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public User findById(@PathVariable UUID id){
+        return userSrv.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public User findAndUpdate(@PathVariable UUID id, @RequestBody User user){
+        return userSrv.findByIdAndUpdate(id, user);
+    }
+
+    @PatchMapping("/{id}/avatar")
+    public User uploadAvatar(@RequestParam("avatar") MultipartFile file, @PathVariable UUID id) {
+        try {
+            return userSrv.uploadAvatar(id, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void findAndDelete(@PathVariable UUID id){
+        userSrv.findByIdAndDelete(id);
+    }
+}
+-----------------------------------------------------------------------------------------------------------------------
+USER CLASS
+-------------------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.entities;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.team1.epicenergyservices.enums.TypeUser;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.usertype.UserType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@Entity
+@Table(name="users")
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Setter(AccessLevel.NONE)
+    private UUID id;
+    private String username;
+    private String email;
+    private String password;
+    private String name;
+    private String lastName;
+    private String avatar;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
+    private TypeUser userType;
+
+    public User(String username, String email, String password, String name, String lastName) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.lastName = lastName;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.userType.name()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+--------------------------------------------------------------------------------------------------------
+TYPE USER
+-------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.enums;
+
+public enum TypeUser {
+    ADMIN, USER
+}
+-------------------------------------------------------------------------------------------------------
+USER LOGIN DTO
+---------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.payloads.login;
+
+public record UserLoginDTO(
+        String email,
+        String password
+) {
+}
+------------------------------------------------------------
+USER LOGIN RESPONSE DTO
+----------------------------------------------------------------
+package com.team1.epicenergyservices.payloads.login;
+
+public record UserLoginResponseDTO(String token) {
+}
+---------------------------------------------------------------------------
+USER DTO
+--------------------------------------------------------------------------------
+package com.team1.epicenergyservices.payloads;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
+public record UserDTO(
+        @NotEmpty(message = "Username required.")
+        @Size(min = 5, max = 20, message = "Username must be long from 5 to 20 characters")
+        String username,
+
+        @NotEmpty(message = "Email required.")
+        @Email(message = "Invalid email.")
+        String email,
+
+        @NotEmpty(message = "Password required.")
+        @Size(min = 5, max = 20, message = "Password must have at least 20 characters.")
+        String password,
+
+        @NotEmpty(message = "Name required.")
+        @Size(min = 2, max = 20, message = "Name must have from2 to 20 characters.")
+        String name,
+
+        @NotEmpty(message = "Last name required.")
+        @Size(min = 2, max = 20, message = "Last name must have from2 to 20 characters.")
+        String lastName
+) {
+}
+----------------------------------------------------------------------------------------------
+USER DAO/REPO
+------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.repositories;
+
+import com.team1.epicenergyservices.entities.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, UUID> {
+    Optional<User> findByEmail(String email);
+}
+--------------------------------------------------------------------------------------------------------------
+JWT FILTER
+--------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.security;
+
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.exceptions.UnauthorizedException;
+import com.team1.epicenergyservices.services.UserService;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@Component
+public class JWTFilter extends OncePerRequestFilter {
+    @Autowired
+    private JWTTools jwtTools;
+    @Autowired
+    private UserService userSrv;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String authHeader = request.getHeader("Authorization");
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) throw new UnauthorizedException("Token missing, please try again.");
+
+        String accessToken = authHeader.substring(7);
+        System.out.println("ACCESS TOKEN " + accessToken);
+
+        String id = jwtTools.extractIdFromToken(accessToken);
+        User user = userSrv.findById(UUID.fromString(id));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request){
+        return new AntPathMatcher().match("/auth/**", request.getServletPath());
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------
+JWT TOOLS
+-------------------------------------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.security;
+
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.exceptions.UnauthorizedException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+
+@Service
+public class JWTTools {
+    @Value("${jwt.secret}")
+    private String secret;
+
+    public String createToken(User user){
+        return Jwts.builder().issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + 1000*60*60*24*7)).subject(String.valueOf(user.getId())).signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact();
+    }
+
+    public void verifyToken(String token){
+        try{
+            Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parse(token);
+        } catch (Exception ex){
+            throw new UnauthorizedException("Token error, try again.");
+        }
+    }
+
+    public String extractIdFromToken(String token){
+        return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes())).build().parseSignedClaims(token).getPayload().getSubject();
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------
+SECURITY CONFIG
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.security;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+    @Autowired
+    private JWTFilter jwtFilter;
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.formLogin(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
+
+        return httpSecurity.build();
+    }
+
+    @Bean
+    PasswordEncoder getBCrypt() {
+        return new BCryptPasswordEncoder(11);
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------------------
+AUTH SERVICE
+---------------------------------------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.services;
+
+import com.team1.epicenergyservices.configuration.MailgunConfig;
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.enums.TypeUser;
+import com.team1.epicenergyservices.exceptions.BadRequestException;
+import com.team1.epicenergyservices.exceptions.UnauthorizedException;
+import com.team1.epicenergyservices.payloads.UserDTO;
+import com.team1.epicenergyservices.payloads.login.UserLoginDTO;
+import com.team1.epicenergyservices.repositories.UserRepository;
+import com.team1.epicenergyservices.security.JWTTools;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+
+@Service
+public class AuthService {
+    @Autowired
+    private UserService userSrv;
+    @Autowired
+    private JWTTools jwtTools;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder bcrypt;
+    @Autowired
+    private MailgunConfig mailgun;
+
+    public String authenticateUserAndGenerateToken(UserLoginDTO userLog) {
+        User user = userSrv.findByEmail(userLog.email());
+        if (bcrypt.matches(userLog.password(), user.getPassword())) {
+            return jwtTools.createToken(user);
+        } else {
+            throw new UnauthorizedException("Invalid credentials, try again.");
+        }
+    }
+
+    public User save(UserDTO user) throws IOException {
+        userRepository.findByEmail(user.email()).ifPresent(us -> {
+            throw new BadRequestException("Email: " + user.email() + " already exist.");
+        });
+        User newUser = new User();
+        newUser.setUsername(user.username());
+        newUser.setEmail(user.email());
+        newUser.setPassword(bcrypt.encode(user.password()));
+        newUser.setName(user.name());
+        newUser.setLastName(user.lastName());
+        newUser.setAvatar("https://ui-avatars.com/api/?name" + user.name() + user.lastName());
+        newUser.setUserType(TypeUser.USER);
+
+        User savedUser = userRepository.save(newUser);
+        mailgun.sendRegistrationEmail(newUser);
+        return savedUser;
+    }
+--------------------------------------------------------------------------------------------------------------------------------------------------
+USER SERVICE
+---------------------------------------------------------------------------------------------------------------------------------------------------
+package com.team1.epicenergyservices.services;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.team1.epicenergyservices.entities.User;
+import com.team1.epicenergyservices.enums.TypeUser;
+import com.team1.epicenergyservices.exceptions.BadRequestException;
+import com.team1.epicenergyservices.exceptions.NotFoundException;
+import com.team1.epicenergyservices.payloads.UserDTO;
+import com.team1.epicenergyservices.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.UUID;
+
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private Cloudinary cloudinaryUploader;
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Email " + email + " not found."));
+    }
+
+    public User findById(UUID id){
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+    }
+
+    public User findByIdAndUpdate(UUID id, User user){
+        User userFound = this.findById(id);
+        userFound.setUsername(user.getUsername());
+        userFound.setEmail(user.getEmail());
+        userFound.setPassword(user.getPassword());
+        userFound.setName(user.getName());
+        userFound.setLastName(user.getLastName());
+
+        return userRepository.save(userFound);
+    }
+
+    public void findByIdAndDelete(UUID userId) {
+        User userFound = this.findById(userId);
+        userRepository.delete(userFound);
+    }
+
+    public User uploadAvatar(UUID id, MultipartFile file) throws IOException{
+        User userFound = this.findById(id);
+        String avatarURL = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        userFound.setAvatar(avatarURL);
+        return userRepository.save(userFound);
+    }
+}
