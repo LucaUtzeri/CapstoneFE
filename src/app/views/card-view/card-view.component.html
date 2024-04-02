@@ -4,92 +4,99 @@
       [src]="card.data[0].card_images[0].image_url"
       alt="{{ card.data[0].name }}"
     />
-  </div>
-  <div class="card-info-container">
-    <h1 class="card-name">{{ card.data[0].name }}</h1>
-    <h3 class="card-type">{{ card.data[0].type }}</h3>
-    <!-- <h2>Frame Type: {{ card.data[0].frameType }}</h2> -->
-    <h3 class="card-attributes" *ngIf="card.data[0].attribute">
-      {{ card.data[0].attribute }} / <span>{{ card.data[0].race }}</span>
-    </h3>
-    <h3 class="card-attributes" *ngIf="!card.data[0].attribute">
-      {{ card.data[0].race }} - Type
-    </h3>
-    <!-- <p *ngIf="card.data[0].level">{{ card.data[0].race }}</p> -->
-    <h2 class="card-level" *ngIf="card.data[0].level">
-      <span>Level/Rank:</span> {{ card.data[0].level }}
-    </h2>
-    <h2 class="card-level" *ngIf="card.data[0].scale">
-      <span>Pendulum Scale:</span> {{ card.data[0].scale }}
-    </h2>
-    <h2 *ngIf="card.data[0].atk">
-      <span>Attack Value:</span> {{ card.data[0].atk }}
-    </h2>
-    <h2 *ngIf="card.data[0].def">
-      <span>Defense Value:</span> {{ card.data[0].def }}
-    </h2>
-    <div class="link-value" *ngIf="card.data[0].linkval">
-      <h2><span>Link Value:</span> {{ card.data[0].linkval }}</h2>
-      <h2><span>Link Markers:</span></h2>
-      <ul>
-        <li *ngFor="let linkmarker of card.data[0].linkmarkers">
-          {{ linkmarker }}
+    <h2 class="card-prices-title"><span>Card Prices:</span></h2>
+      <ul class="card-prices-list">
+        <li class="card-price">
+          Cardmarket.com:
+          <span>{{ card.data[0].card_prices[0].cardmarket_price }}$</span>
+        </li>
+        <li class="card-price">
+          TCGPLayer.com:
+          <span>{{ card.data[0].card_prices[0].tcgplayer_price }}$</span>
+        </li>
+        <li class="card-price">
+          Ebay.com: <span>{{ card.data[0].card_prices[0].ebay_price }}$</span>
+        </li>
+        <li class="card-price">
+          Amazon.com: <span>{{ card.data[0].card_prices[0].amazon_price }}$</span>
+        </li>
+        <li class="card-price">
+          CoolStuffInc:
+          <span>{{ card.data[0].card_prices[0].coolstuffinc_price }}$</span>
         </li>
       </ul>
-    </div>
-    <div class="card-text-container" *ngIf="!card.data[0].pend_desc">
-      <h2><span>Card Text:</span></h2>
-      <p class="card-text">{{ card.data[0].desc }}</p>
-    </div>
-    <div *ngIf="card.data[0].pend_desc">
-      <h2><span>Pendulum Effect:</span></h2>
-      <p class="card-text">{{ card.data[0].pend_desc }}</p>
-    </div>
-    <div *ngIf="card.data[0].pend_desc">
-      <h2><span>Monster Text:</span></h2>
-      <p class="card-text">{{ card.data[0].monster_desc }}</p>
-    </div>
-    <h2 class="card-archetype" *ngIf="card.data[0].archetype">
-      <span>Archetype:</span> {{ card.data[0].archetype }}
-    </h2>
-    <h2><span>Referral Link:</span></h2>
-    <a href="{{ card.data[0].ygoprodeck_url }}">{{
-      card.data[0].ygoprodeck_url
-    }}</a>
-    <h2><span>Card Set Apparitions:</span></h2>
-    <div class="card-set-container">
-      <div class="card-set" *ngFor="let set of card.data[0].card_sets">
-        <h4>{{ set.set_name }} ({{ set.set_code }})</h4>
+  </div>
+  <div class="scrollable">
+    <div class="card-info-container">
+      <h1 class="card-name">{{ card.data[0].name }}</h1>
+      <h3 class="card-type">{{ card.data[0].type }}</h3>
+      <!-- <h2>Frame Type: {{ card.data[0].frameType }}</h2> -->
+      <h3 class="card-attributes" *ngIf="card.data[0].attribute">
+        {{ card.data[0].attribute }} | <span>{{ card.data[0].race }}</span>
+      </h3>
+      <h3 class="card-attributes" *ngIf="!card.data[0].attribute">
+        {{ card.data[0].race }} - Type
+      </h3>
+      <!-- <p *ngIf="card.data[0].level">{{ card.data[0].race }}</p> -->
+      <h2 class="card-level" *ngIf="card.data[0].level">
+        <span>Level/Rank:</span> {{ card.data[0].level }}
+      </h2>
+      <h2 class="card-level" *ngIf="card.data[0].scale">
+        <span>Pendulum Scale:</span> {{ card.data[0].scale }}
+      </h2>
+      <h2 *ngIf="card.data[0].def">
+        <span>Attack |</span> {{ card.data[0].atk }} ||
+        <span> Defense |</span> {{ card.data[0].def }}
+      </h2>
+      <h2 *ngIf="!card.data[0].def">
+        <span>Attack |</span> {{ card.data[0].atk }}
+      </h2>
+      <div class="link-value" *ngIf="card.data[0].linkval">
+        <h2><span>Link Value |</span> {{ card.data[0].linkval }}</h2>
+        <h2><span>Link Markers:</span></h2>
         <ul>
-          <li>Price: {{ set.set_price }}$</li>
-          <li>
-            Rarity:
-            {{ set.set_rarity }}
-            {{ set.set_rarity_code }}
+          <li
+            class="linkmarkers"
+            *ngFor="let linkmarker of card.data[0].linkmarkers"
+          >
+            {{ linkmarker }}
           </li>
         </ul>
       </div>
+      <div class="card-text-container" *ngIf="!card.data[0].pend_desc">
+        <h2><span>Card Text:</span></h2>
+        <p class="card-text">{{ card.data[0].desc }}</p>
+      </div>
+      <div *ngIf="card.data[0].pend_desc">
+        <h2><span>Pendulum Effect:</span></h2>
+        <p class="card-text">{{ card.data[0].pend_desc }}</p>
+      </div>
+      <div *ngIf="card.data[0].pend_desc">
+        <h2><span>Monster Text:</span></h2>
+        <p class="card-text">{{ card.data[0].monster_desc }}</p>
+      </div>
+      <h2 class="card-archetype" *ngIf="card.data[0].archetype">
+        <span>Archetype:</span> {{ card.data[0].archetype }}
+      </h2>
+      <!-- <h2><span>Referral Link:</span></h2>
+      <a href="{{ card.data[0].ygoprodeck_url }}">{{
+        card.data[0].ygoprodeck_url
+      }}</a> -->
+      <h2><span>Card Set Apparitions:</span></h2>
+      <div class="card-set-container">
+        <div class="card-set" *ngFor="let set of card.data[0].card_sets">
+          <h4>{{ set.set_name }} ({{ set.set_code }})</h4>
+          <ul>
+            <li>Price: {{ set.set_price }}$</li>
+            <li>
+              Rarity:
+              {{ set.set_rarity }}
+              {{ set.set_rarity_code }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      
     </div>
-    <h2 class="card-prices-title"><span>Card Prices:</span></h2>
-    <ul class="card-prices-list">
-      <li class="card-price">
-        Cardmarket.com:
-        <span>{{ card.data[0].card_prices[0].cardmarket_price }}$</span>
-      </li>
-      <li class="card-price">
-        TCGPLayer.com:
-        <span>{{ card.data[0].card_prices[0].tcgplayer_price }}$</span>
-      </li>
-      <li class="card-price">
-        Ebay.com: <span>{{ card.data[0].card_prices[0].ebay_price }}$</span>
-      </li>
-      <li class="card-price">
-        Amazon.com: <span>{{ card.data[0].card_prices[0].amazon_price }}$</span>
-      </li>
-      <li class="card-price">
-        CoolStuffInc:
-        <span>{{ card.data[0].card_prices[0].coolstuffinc_price }}$</span>
-      </li>
-    </ul>
   </div>
 </div>
