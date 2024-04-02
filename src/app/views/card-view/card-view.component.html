@@ -52,10 +52,10 @@
     <h2 class="card-archetype" *ngIf="card.data[0].archetype">
       <span>Archetype:</span> {{ card.data[0].archetype }}
     </h2>
-    <h2><span>Referral Link:</span></h2>
+    <!-- <h2><span>Referral Link:</span></h2>
     <a href="{{ card.data[0].ygoprodeck_url }}">{{
       card.data[0].ygoprodeck_url
-    }}</a>
+    }}</a> -->
     <h2><span>Card Set Apparitions:</span></h2>
     <div class="card-set-container">
       <div class="card-set" *ngFor="let set of card.data[0].card_sets">

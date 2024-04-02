@@ -20,7 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
-    CardViewComponent
+    CardViewComponent,
   ],
   imports: [
     BrowserModule,
